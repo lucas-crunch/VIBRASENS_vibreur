@@ -31,6 +31,10 @@ bool state_vibration = false;
 long timerScreenSleep = 0;
 long intervalScreenSleep = 10000; // 10 seconds
 
+unsigned long timer_holding = 0;
+bool start_holding = false;
+int time_screen = 2;
+
 bool flag_start = false;
 #include <network_espnow.h>
 
@@ -109,7 +113,14 @@ void loop() {
                 }
             }
 
-            if (M5.BtnA.wasClicked()) {
+            if (M5.BtnA.wasClicked() && sleep_state == false) {
+                Serial.println("BtnA Clicked and sleep_state is false");
+                timerScreenSleep = millis();
+                analogWrite(G32,0);
+                flag_start = false;
+            }
+
+            if (M5.BtnA.wasClicked() && sleep_state) {
                 Serial.println("BtnA Clicked");
                 M5.Display.wakeup();
                 delay(100);
@@ -117,7 +128,6 @@ void loop() {
                 initScreen();
                 screenBackground();
                 upgradeScreen();
-                analogWrite(G32,0);
                 flag_start = false;
                 sleep_state = false;
             }
@@ -175,6 +185,37 @@ void loop() {
 
         default:
             break;
+    }
+
+    if (M5.BtnPWR.isHolding()) {
+        timerScreenSleep = millis();
+        if (start_holding == false) {
+            M5.Display.fillRect(0, 60, 135, 60, RED); // Efface la zone d'affichage
+            M5.Display.setTextColor(BLACK);
+            M5.Display.setTextDatum(CC_DATUM);
+            M5.Display.setFont(&Orbitron_Light_24);
+            //M5.Display.drawString(String(time_screen), 135 / 2, 90);
+            M5.Display.drawString("Power Off :", 135 / 2, 70);
+            M5.Display.drawString(String(time_screen)+"s", 135 / 2, 90);
+            start_holding = true;
+            timer_holding = millis();
+        }
+        if (millis() - timer_holding > 1000) {
+            time_screen--;
+            timer_holding = millis();
+            M5.Display.fillRect(0, 60, 135, 60, RED); // Efface la zone d'affichage
+            M5.Display.drawString("Power Off :", 135 / 2, 70);
+            M5.Display.drawString(String(time_screen)+"s", 135 / 2, 90);
+            //M5.Display.drawString(String(time_screen), 135 / 2, 90);
+
+        }
+    }
+    if (M5.BtnPWR.wasReleasedAfterHold()) {
+        timer_holding = 0;
+        time_screen = 2;
+        M5.Display.clear(LIGHTGREY);
+        screenBackground();
+        upgradeScreen();
     }
 
     delay(10);
