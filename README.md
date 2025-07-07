@@ -20,7 +20,7 @@ Ce module vibrant est **piloté à distance** via une **connexion Wi-Fi** par le
 | Composant                | Référence produit | Lien |
 |--------------------------|-------------------|------|
 | Microcontrôleur          | M5StickC Plus 2   | [🔗 M5Stack](https://shop.m5stack.com/products/m5stickc-plus2-esp32-mini-iot-development-kit) |
-| Moteur vibrant           | M5Vibration motor unit | [🔗 M5Stack]([https://shop.m5stack.com/products/scroll-unit-with-hollow-shaft-encoder-ec10e1220501](https://shop.m5stack.com/products/vibration-motor-unit)) |
+| Moteur vibrant           | M5Vibration motor unit | [🔗 M5Stack](https://shop.m5stack.com/products/scroll-unit-with-hollow-shaft-encoder-ec10e1220501](https://shop.m5stack.com/products/vibration-motor-unit)) |
 | Câbles de connexion      | Grove M/M (1×5 cm) | [🔗 M5Stack](https://shop.m5stack.com/products/4pin-buckled-grove-cable) |
 
 ---
